@@ -1,0 +1,12 @@
+version: "3"
+services:
+  redis:
+    container_name: example-redis
+    image: redis:7.0.4
+    command: redis-server --port 6379
+    hostname: redis_standalone
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    ports:
+      - "6379:6379"
