@@ -2,15 +2,19 @@ package com.example.practicespringdataredis.domain.service
 
 import com.example.practicespringdataredis.domain.repository.BlockedUserRepository
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.core.spec.Spec
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.redis.core.RedisTemplate
 import java.util.*
 
 @SpringBootTest
 class VCodeServiceTest(
     private val blockedUserRepository: BlockedUserRepository,
-    private val vCodeService: VCodeService
+    private val vCodeService: VCodeService,
+
+    private val redisTemplate: RedisTemplate<String, Int>
 ) : DescribeSpec({
     describe("VCodeService 기본 테스트") {
         val vCode = UUID.randomUUID().toString().uppercase().replace("-", "")
@@ -47,4 +51,10 @@ class VCodeServiceTest(
             }
         }
     }
-})
+}) {
+    override suspend fun beforeSpec(spec: Spec) {
+        super.beforeSpec(spec)
+
+        redisTemplate.keys("*").forEach(redisTemplate::delete)
+    }
+}
