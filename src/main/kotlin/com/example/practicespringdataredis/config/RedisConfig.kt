@@ -20,7 +20,7 @@ class RedisConfig(
     }
 
     @Bean
-    fun redisTemplate(): RedisTemplate<String, Int> {
+    fun reportedCountRedisTemplate(): RedisTemplate<String, Int> {
         return RedisTemplate<String, Int>().apply {
             connectionFactory = redisConnectionFactory()
             keySerializer = StringRedisSerializer()

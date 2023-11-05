@@ -7,13 +7,16 @@ import org.springframework.stereotype.Component
 @Primary
 @Component
 class ReportedCountRedisAdapter(
-    private val redisTemplate: RedisTemplate<String, Int>
+    private val reportedCountRedisTemplate: RedisTemplate<String, Int>
 ) : ReportedCountRepository {
     override fun report(userId: String) {
-        redisTemplate.opsForValue().increment(userId)
+        reportedCountRedisTemplate.opsForValue().increment(userId.toKey())
     }
 
     override fun getReportedCount(userId: String): Int {
-        return redisTemplate.opsForValue()[userId] ?: 0
+        return reportedCountRedisTemplate.opsForValue()[userId.toKey()] ?: 0
     }
+
+    // key space 가 많아진다면 key 생성 책임을 분리할 수도 있습니다.
+    private fun String.toKey(): String = "reported_count:$this"
 }

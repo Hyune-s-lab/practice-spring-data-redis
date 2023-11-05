@@ -14,7 +14,7 @@ class VCodeServiceTest(
     private val reportedCountRepository: ReportedCountRepository,
     private val vCodeService: VCodeService,
 
-    private val redisTemplate: RedisTemplate<String, Int>
+    private val reportedCountRedisTemplate: RedisTemplate<String, Int>
 ) : DescribeSpec({
     describe("VCodeService 기본 테스트") {
         val vCode = UUID.randomUUID().toString().uppercase().replace("-", "")
@@ -30,7 +30,7 @@ class VCodeServiceTest(
             }
         }
 
-        describe("V 코드를 4회 더 사용하면 실패한다.") {
+        describe("V 코드를 4회 더 사용해도 실패한다.") {
             repeat(4) {
                 shouldThrow<IllegalStateException> {
                     vCodeService.use(vCode, userId)
@@ -55,6 +55,6 @@ class VCodeServiceTest(
     override suspend fun beforeSpec(spec: Spec) {
         super.beforeSpec(spec)
 
-        redisTemplate.keys("*").forEach(redisTemplate::delete)
+        reportedCountRedisTemplate.keys("*").forEach(reportedCountRedisTemplate::delete)
     }
 }
