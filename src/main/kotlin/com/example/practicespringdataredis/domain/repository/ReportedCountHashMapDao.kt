@@ -17,4 +17,8 @@ class ReportedCountHashMapDao : ReportedCountRepository {
     override fun getReportedCount(userId: String): Int {
         return users[userId] ?: 0
     }
+
+    override fun getExpire(userId: String): Long {
+        TODO("Not yet implemented")
+    }
 }

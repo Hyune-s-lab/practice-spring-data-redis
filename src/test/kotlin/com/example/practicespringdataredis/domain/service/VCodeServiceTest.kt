@@ -4,6 +4,7 @@ import com.example.practicespringdataredis.domain.repository.ReportedCountReposi
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.Spec
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.comparables.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.redis.core.RedisTemplate
@@ -27,6 +28,10 @@ class VCodeServiceTest(
 
             it("사용 시도한 userId 의 reported count 가 증가한다.") {
                 reportedCountRepository.getReportedCount(userId) shouldBe 1
+            }
+
+            it("reported count 의 expire time 이 존재한다.") {
+                reportedCountRepository.getExpire(userId) shouldBeGreaterThan 0
             }
         }
 
