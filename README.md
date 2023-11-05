@@ -4,15 +4,13 @@
 
 - spring boot 3.1.5 + kotlin
 - redis 7.0.4
+
 ```shell
 # redis docker 실행
 $ ./run_redis.sh
 ```
 
-
 ## feature
-
-> V 코드 (UUID 난수코드)
 
 ### v1
 
