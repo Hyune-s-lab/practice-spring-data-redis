@@ -3,7 +3,7 @@ package com.example.practicespringdataredis.domain.repository
 import org.springframework.stereotype.Repository
 
 @Repository
-class BlockedUserHashMapDao : BlockedUserRepository {
+class ReportedCountHashMapDao : ReportedCountRepository {
     private val users = HashMap<String, Int>()
 
     override fun report(userId: String) {
@@ -16,9 +16,5 @@ class BlockedUserHashMapDao : BlockedUserRepository {
 
     override fun getReportedCount(userId: String): Int {
         return users[userId] ?: 0
-    }
-
-    override fun isBlocked(userId: String): Boolean {
-        return (users[userId] ?: 0) >= 5
     }
 }

@@ -1,6 +1,6 @@
 package com.example.practicespringdataredis.domain.service
 
-import com.example.practicespringdataredis.domain.repository.BlockedUserRepository
+import com.example.practicespringdataredis.domain.repository.ReportedCountRepository
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.Spec
 import io.kotest.core.spec.style.DescribeSpec
@@ -11,7 +11,7 @@ import java.util.*
 
 @SpringBootTest
 class VCodeServiceTest(
-    private val blockedUserRepository: BlockedUserRepository,
+    private val reportedCountRepository: ReportedCountRepository,
     private val vCodeService: VCodeService,
 
     private val redisTemplate: RedisTemplate<String, Int>
@@ -26,7 +26,7 @@ class VCodeServiceTest(
             }.message shouldBe "always fail to use vCode"
 
             it("사용 시도한 userId 의 reported count 가 증가한다.") {
-                blockedUserRepository.getReportedCount(userId) shouldBe 1
+                reportedCountRepository.getReportedCount(userId) shouldBe 1
             }
         }
 
@@ -38,8 +38,8 @@ class VCodeServiceTest(
             }
 
             it("5회 사용 실패한 userId 는 blocked 된다.") {
-                blockedUserRepository.getReportedCount(userId) shouldBe 5
-                blockedUserRepository.isBlocked(userId) shouldBe true
+                reportedCountRepository.getReportedCount(userId) shouldBe 5
+                vCodeService.isBlocked(userId) shouldBe true
             }
         }
 
